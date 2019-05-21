@@ -27,6 +27,16 @@ def byebye():
 
     return statement(bye_message)
 
+@ask.intent("ChangeGame")
+def change_game():
+    change_message = render_template("change")
+
+    numbers = [randint(0, 9) for _ in range(4)]
+
+    session.attributes['numbers'] = numbers[::-1]  # reverse
+
+    return statement(change_message)
+
 @ask.intent("AMAZON.FallbackIntent")
 def fallback_intent():
     fall_back_message = "Can you repeat please?"
@@ -46,17 +56,26 @@ def next_round():
 
 
 @ask.intent("AnswerIntent", convert={'first': int, 'second': int, 'third': int})
-def answer(first, second, third):
+def answer(first, second, third, fourth):
 
     winning_numbers = session.attributes['numbers']
 
-    if [first, second, third] == winning_numbers:
+    if len(winning_numbers) == 3:
+        if [first, second, third] == winning_numbers:
 
-        msg = render_template('win')
+            msg = render_template('win')
 
-    else:
+        else:
 
-        msg = render_template('lose')
+            msg = render_template('lose')
+    elif len(winning_numbers) == 4:
+        if [first, second, third, fourth] == winning_numbers:
+
+            msg = render_template('win')
+
+        else:
+
+            msg = render_template('lose')
 
     return statement(msg)
 
