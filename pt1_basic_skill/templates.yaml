@@ -2,7 +2,7 @@ welcome: Welcome to memory game. I'm going to say three numbers for you to repea
 
 round: Can you repeat the numbers {{ numbers|join(", ") }} backwards?
 
-change: Ok! Let's play with four numbers!
+change: Ok! Let's play with four numbers! Can you repeat the numbers {{ numbers|join(", ") }} backwards?
 
 win: Good job!
 
