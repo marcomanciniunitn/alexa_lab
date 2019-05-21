@@ -21,6 +21,11 @@ def new_game():
 
     return question(welcome_msg)
 
+@ask.intent("NoIntent")
+def byebye():
+    bye_message = render_template("bye")
+
+    return statement(bye_message)
 
 @ask.intent("AMAZON.FallbackIntent")
 def fallback_intent():
