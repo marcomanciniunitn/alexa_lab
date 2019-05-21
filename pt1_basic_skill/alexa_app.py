@@ -29,9 +29,9 @@ def byebye():
 
 @ask.intent("ChangeGame")
 def change_game():
-    change_message = render_template("change")
-
     numbers = [randint(0, 9) for _ in range(4)]
+
+    change_message = render_template("change", numbers=numbers)
 
     session.attributes['numbers'] = numbers[::-1]  # reverse
 
