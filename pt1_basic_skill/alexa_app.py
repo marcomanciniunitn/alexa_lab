@@ -55,7 +55,7 @@ def next_round():
     return question(round_msg)
 
 
-@ask.intent("AnswerIntent", convert={'first': int, 'second': int, 'third': int})
+@ask.intent("AnswerIntent", convert={'first': int, 'second': int, 'third': int, "fourth": int})
 def answer(first, second, third, fourth):
 
     winning_numbers = session.attributes['numbers']
