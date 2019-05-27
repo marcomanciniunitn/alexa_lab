@@ -165,7 +165,7 @@ def received_deny(dialog_state_attribute_name = 'dialog_frame'):
 
     dialog_state = update_dialog_state(session, {})
 
-    if dialog_history[-1]["intent"] == "deny" and dialog_state.get("restarted") is None:
+    if dialog_history[-1]["intent"] == "deny" and dialog_state.get("restarted", None) is None:
         msg = render_template('restart')
     else:
         msg = render_template('utter_goodbye')
