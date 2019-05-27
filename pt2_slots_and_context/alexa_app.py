@@ -162,7 +162,7 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
 def received_deny(dialog_state_attribute_name = 'dialog_frame'):
     dialog_history = update_dialog_history(session, request)
 
-    if dialog_history[-1]["intent"] == "deny":
+    if dialog_history[-2]["intent"] == "deny":
         msg = render_template('utter_goodbye')
     else:
         msg = render_template('restart')
