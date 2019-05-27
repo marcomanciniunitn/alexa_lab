@@ -137,9 +137,19 @@ def received_greet():
 
 
 @ask.intent("affirm")
-def received_affirm():
+def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
+    dialog_state = session.attributes.get(dialog_state_attribute_name, {})
 
-    msg = render_template('utter_booked')
+    if dialog_state.get("cuisine_type") and dialog_state.get("location") \
+            and dialog_state.get("price") and dialog_state.get("number_people"):
+        msg = render_template('utter_booked')
+        slots = {"cuisine": None, "price": None,
+                 "location": None, "people": None}
+        d_s = update_dialog_state(session, slots)
+
+    else:
+
+        msg = render_template("utter_ask_cuisine")
 
     response = statement(msg)
 
@@ -148,6 +158,7 @@ def received_affirm():
 
 @ask.intent("deny")
 def received_deny():
+
 
     msg = render_template('utter_goodbye')
 
