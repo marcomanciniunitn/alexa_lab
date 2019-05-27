@@ -141,7 +141,7 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
     dialog_state = session.attributes.get(dialog_state_attribute_name, {})
 
     if dialog_state.get("cuisine_type") is not None and dialog_state.get("location") is not None \
-            and dialog_state.get("price") is not None and dialog_state.get("people") is not None:
+            and dialog_state.get("price") is not None and dialog_state.get("number_people") is not None:
         msg = render_template('utter_booked')
         slots = {"cuisine_type": None, "price": None,
                  "location": None, "people": None}
