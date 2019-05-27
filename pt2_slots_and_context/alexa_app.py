@@ -145,7 +145,8 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
     dialog_history = update_dialog_history(session, request)
 
     if dialog_history[-1]["intent"] == "deny":
-        state = {"cuisine_type": None, "location": None, "price": None, "number_people": None}
+        state = {"cuisine_type": None, "location": None, "price": None, "number_people": None,
+                 "restarted": True}
         msg = render_template("utter_ask_cuisine")
         dialog_state = update_dialog_state(session, state)
     else:
@@ -160,15 +161,17 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
 
 @ask.intent("deny")
 def received_deny(dialog_state_attribute_name = 'dialog_frame'):
-
-
-    if dialog_history[-1]["intent"] == "deny":
-        msg = render_template('utter_goodbye')
-    else:
-        msg = render_template('restart')
-    #msg = render_template('utter_goodbye')
     dialog_history = update_dialog_history(session, request)
-    
+
+    dialog_state = update_dialog_state(session, {})
+
+    if dialog_history[-1]["intent"] == "deny" and dialog_state.get("restarted") is None:
+        msg = render_template('restart')
+    else:
+        msg = render_template('utter_goodbye')
+    #msg = render_template('utter_goodbye')
+
+
     return statement(msg)
 
 
