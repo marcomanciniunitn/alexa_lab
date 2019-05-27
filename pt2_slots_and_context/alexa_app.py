@@ -143,8 +143,8 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
     if dialog_state.get("cuisine_type") and dialog_state.get("location") \
             and dialog_state.get("price") and dialog_state.get("number_people"):
         msg = render_template('utter_booked')
-        slots = {"cuisine": None, "price": None,
-                 "location": None, "people": None}
+        slots = {"cuisine_type": None, "price": None,
+                 "location": None, "number_people": None}
         d_s = update_dialog_state(session, slots)
 
     else:
