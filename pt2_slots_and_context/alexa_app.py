@@ -140,16 +140,18 @@ def received_greet():
 def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
     dialog_state = session.attributes.get(dialog_state_attribute_name, {})
 
-    if dialog_state.get("cuisine_type") is not None and dialog_state.get("location") is not None \
-            and dialog_state.get("price") is not None and dialog_state.get("number_people") is not None:
-        msg = render_template('utter_booked')
-        slots = {"cuisine_type": None, "price": None,
-                 "location": None, "people": None}
-        d_s = update_dialog_state(session, slots)
+    dialog_state = session.attributes.get(dialog_state_attribute_name, {})
 
+    dialog_history = update_dialog_history(session, request)
+
+    if dialog_history[-1]["intent"] == "deny":
+        state = {"cuisine_type": None, "location": None, "price": None, "number_people": None}
+        msg = render_template("utter_ask_cuisine")
+        dialog_state = update_dialog_state(session, state)
     else:
 
-        msg = render_template("utter_ask_cuisine")
+        msg = render_template('utter_booked')
+
 
     response = statement(msg)
 
@@ -157,10 +159,14 @@ def received_affirm(dialog_state_attribute_name = 'dialog_frame'):
 
 
 @ask.intent("deny")
-def received_deny():
+def received_deny(dialog_state_attribute_name = 'dialog_frame'):
+    dialog_history = update_dialog_history(session, request)
 
-
-    msg = render_template('utter_goodbye')
+    if dialog_history[-1]["intent"] == "deny":
+        msg = render_template('utter_goodbye')
+    else:
+        msg = render_template('restart')
+    #msg = render_template('utter_goodbye')
 
     return statement(msg)
 
